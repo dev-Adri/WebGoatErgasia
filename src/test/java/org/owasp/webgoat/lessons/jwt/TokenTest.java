@@ -44,7 +44,7 @@ public class TokenTest {
                     return TextCodec.BASE64.decode(key);
                   }
                 })
-            .parse(token);
+            .parseClaimsJws(token);
   }
 
   @Test
