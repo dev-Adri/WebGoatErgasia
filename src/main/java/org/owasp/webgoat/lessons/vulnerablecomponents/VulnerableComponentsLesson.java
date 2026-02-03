@@ -30,6 +30,12 @@ public class VulnerableComponentsLesson implements AssignmentEndpoint {
     Contact contact = null;
 
     try {
+    XStream xstream = new XStream();
+    // ! NEW !
+    xstream.addPermission(NoPermission.NONE); // Απαγόρευση όλων των κλάσεων εξ ορισμού
+    xstream.allowTypes(new Class[] { Contact.class }); // Επιτρεπτή μόνο η κλάση Contact
+    // ! NEW !
+    
       if (!StringUtils.isEmpty(payload)) {
         payload =
             payload

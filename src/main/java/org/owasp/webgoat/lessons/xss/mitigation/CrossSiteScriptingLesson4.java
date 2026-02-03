@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
+
 @RestController
 @AssignmentHints(value = {"xss-mitigation-4-hint1"})
 public class CrossSiteScriptingLesson4 implements AssignmentEndpoint {
@@ -23,7 +26,10 @@ public class CrossSiteScriptingLesson4 implements AssignmentEndpoint {
   @ResponseBody
   public AttackResult completed(@RequestParam String editor2) {
 
-    String editor = editor2.replaceAll("\\<.*?>", "");
+    // ! NEW !
+    PolicyFactory policy = Sanitizers.FORMATTING; // Χρήση ασφαλούς policy για formatting
+    String editor = policy.sanitize(editor2);
+    // ! NEW !
 
     if ((editor.contains("Policy.getInstance(\"antisamy-slashdot.xml\"")
             || editor.contains(".scan(newComment, \"antisamy-slashdot.xml\"")
