@@ -70,10 +70,15 @@ public class CommentsCache {
     var jc = JAXBContext.newInstance(Comment.class);
     var xif = XMLInputFactory.newInstance();
 
-    // TODO fix me disabled for now.
+    // Enable secure XML processing when requested.
     if (securityEnabled) {
+      // Disallow any external DTDs and schemas.
       xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
+      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // Compliant
+      // Disable DTDs entirely.
+      xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+      // Disable external entities.
+      xif.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
     }
 
     var xsr = xif.createXMLStreamReader(new StringReader(xml));
