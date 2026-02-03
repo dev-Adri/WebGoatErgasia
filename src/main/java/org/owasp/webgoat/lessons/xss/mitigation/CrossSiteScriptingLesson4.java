@@ -26,10 +26,7 @@ public class CrossSiteScriptingLesson4 implements AssignmentEndpoint {
   @ResponseBody
   public AttackResult completed(@RequestParam String editor2) {
 
-    // ! NEW !
-    PolicyFactory policy = Sanitizers.FORMATTING; // Χρήση ασφαλούς policy για formatting
-    String editor = policy.sanitize(editor2);
-    // ! NEW !
+    String editor = editor2.replaceAll("<[^>]*>", "");
 
     if ((editor.contains("Policy.getInstance(\"antisamy-slashdot.xml\"")
             || editor.contains(".scan(newComment, \"antisamy-slashdot.xml\"")

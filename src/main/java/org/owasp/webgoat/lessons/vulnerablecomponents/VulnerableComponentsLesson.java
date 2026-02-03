@@ -30,10 +30,15 @@ public class VulnerableComponentsLesson implements AssignmentEndpoint {
     Contact contact = null;
 
     try {
-    XStream xstream = new XStream();
     // ! NEW !
-    xstream.addPermission(NoPermission.NONE); // Απαγόρευση όλων των κλάσεων εξ ορισμού
-    xstream.allowTypes(new Class[] { Contact.class }); // Επιτρεπτή μόνο η κλάση Contact
+    // Δημιουργία νέου secure instance για να παρακάμψουμε τυχόν ανασφαλή global config
+    com.thoughtworks.xstream.XStream xstream = new com.thoughtworks.xstream.XStream();
+    
+    // 1. Απαγόρευση ΟΛΩΝ των τύπων (Secure by default)
+    xstream.addPermission(com.thoughtworks.xstream.security.NoPermission.NONE);
+    
+    // 2. Ρητή έγκριση ΜΟΝΟ της κλάσης Contact
+    xstream.allowTypes(new Class[] { org.owasp.webgoat.lessons.vulnerablecomponents.Contact.class });
     // ! NEW !
     
       if (!StringUtils.isEmpty(payload)) {
